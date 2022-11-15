@@ -33,23 +33,15 @@ def get_jobs(job_tag,location):
 
     response = requests.request("POST", url, json=payload, headers=headers)
 
-    if response.status_code == 200:     
-        return response.json()
-    else:
-        return response
-
-
-if __name__ == '__main__':
-    python_jobs = get_jobs("python","Netherlands")
-    
-    if python_jobs:
+    if response.status_code == 200: 
+        data = response.json()    
         sender = os.getenv("SENDER_EMAIL")
         receiver = os.getenv("RECEIVER_EMAIL")
         password = os.getenv("APP_PASSWORD")
         sub = "Subject: Remote Python Jobs!\n\n"
         message = "Found some cool Python jobs!\n\n"
         
-        for job in python_jobs:
+        for job in data:
             job_headers = [
                 'job_title', 'company_name',  'linkedin_job_url_cleaned', 
                 'linkedin_company_url_cleaned', 'job_location', 'posted_date'
@@ -59,3 +51,8 @@ if __name__ == '__main__':
             message += f"{json.dumps(job_data)}\n\n"
 
         send_email(sender, receiver, password, sub, message)
+        return "Job updates sent!!!"
+    else:
+        return response
+    
+print(get_jobs("python", "Poland"))
