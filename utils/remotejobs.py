@@ -27,7 +27,7 @@ def get_jobs(job_tag,location):
     }
     headers = {
         "content-type": "application/json",
-        "X-RapidAPI-Key": os.getenv("RapidAPI-Key"),
+        "X-RapidAPI-Key": os.getenv("RapidAPI_Key"),
         "X-RapidAPI-Host": "linkedin-jobs-search.p.rapidapi.com"
     }
 
